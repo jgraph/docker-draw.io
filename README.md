@@ -32,7 +32,7 @@ Forked from [fjudith/draw.io](https://github.com/fjudith/docker-draw.io)
 Run the container.
 
 ```bash
-docker run -it --rm --name="draw" -p 8080:8080 -p 8443:8443 jgraph/drawio
+docker run -it --rm --name="draw" -p 8080:8080 -p 8443:8443 fjudith/draw.io
 ```
 
 Start a web browser session to <http://localhost:8080/?offline=1&https=0> or <https://localhost:8443/?offline=1>
