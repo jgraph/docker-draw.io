@@ -3,43 +3,39 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - master
+      - *
     tags:
-      - 'v*'
+      - "v*"
     schedule:
       - cron: "05 04 * * 1"
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        base-image: [debian, alpine]
     env:
       REPO: jgraph/drawio
-      BASE_IMAGE: ${{ matrix.base-image }}
+      BASE_IMAGE: debian
       HTTP_PORT: 32733
       HTTPS_PORT: 32734
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the ${{ matrix.base-image }} Docker image
-      run: |
-        # Get draw.io current latest version
-        wget https://raw.githubusercontent.com/jgraph/drawio/master/VERSION
-        export VERSION=`cat VERSION`
-        export POSTFIX=`if [ "$BASE_IMAGE" == "debian" ]; then echo ""; else echo "-${BASE_IMAGE}" ; fi`
-        docker build -f ${BASE_IMAGE}/Dockerfile -t ${REPO}:${VERSION}${POSTFIX} ${BASE_IMAGE}/
-        docker run --name "drawio${POSTFIX}" -d -p ${HTTP_PORT}:8080 -p ${HTTPS_PORT}:8443 ${REPO}:${VERSION}${POSTFIX}
-        sleep 10
-        docker logs drawio${POSTFIX}
-        docker exec drawio${POSTFIX} /bin/bash -c "curl -i http://localhost:8080"
-        export GIT_BRANCH=`echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }'`
-        export TAG=`if [ "$GIT_BRANCH" == "v${VERSION}" ] || [ "$GIT_BRANCH" == "master" ]; then echo "latest"; else echo $GIT_BRANCH ; fi`
-        export ALPINE_TAG=`if [ "$GIT_BRANCH" == "v${VERSION}" ] || [ "$GIT_BRANCH" == "master" ]; then echo "alpine"; else echo $GIT_BRANCH ; fi` 
-        export TAG=`if [ "$POSTFIX" == "" ]; then echo $TAG; else echo $ALPINE_TAG ; fi`
-        echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin;
-        docker tag ${REPO}:${VERSION}${POSTFIX} ${REPO}:$TAG;
-        docker push ${REPO}:${TAG};
-        docker push ${REPO}:${VERSION}${POSTFIX};
+      - uses: actions/checkout@v2
+      - name: Build the ${BASE_IMAGE} Docker image
+        run: |
+          # Get draw.io current latest version
+          wget https://raw.githubusercontent.com/jgraph/drawio/master/VERSION
+          export VERSION=`cat VERSION`
+          export POSTFIX=`if [ "$BASE_IMAGE" == "debian" ]; then echo ""; else echo "-${BASE_IMAGE}" ; fi`
+          docker build -f ${BASE_IMAGE}/Dockerfile -t ${REPO}:${VERSION}${POSTFIX} ${BASE_IMAGE}/
+          docker run --name "drawio${POSTFIX}" -d -p ${HTTP_PORT}:8080 -p ${HTTPS_PORT}:8443 ${REPO}:${VERSION}${POSTFIX}
+          sleep 10
+          docker logs drawio${POSTFIX}
+          docker exec drawio${POSTFIX} /bin/bash -c "curl -i http://localhost:8080"
+          export GIT_BRANCH=`echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }'`
+          export TAG=`if [ "$GIT_BRANCH" == "v${VERSION}" ] || [ "$GIT_BRANCH" == "master" ]; then echo "latest"; else echo $GIT_BRANCH ; fi`
+          export ALPINE_TAG=`if [ "$GIT_BRANCH" == "v${VERSION}" ] || [ "$GIT_BRANCH" == "master" ]; then echo "alpine"; else echo $GIT_BRANCH ; fi` 
+          export TAG=`if [ "$POSTFIX" == "" ]; then echo $TAG; else echo $ALPINE_TAG ; fi`
+          echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin;
+          docker tag ${REPO}:${VERSION}${POSTFIX} ${REPO}:$TAG;
+          docker push ${REPO}:${TAG};
+          docker push ${REPO}:${VERSION}${POSTFIX};
