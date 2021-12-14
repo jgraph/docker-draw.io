@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<Context>
+  <JarScanner>
+    <JarScannerFilter  defaultTldScan="true" />
+  </JarScanner>
+</Context>

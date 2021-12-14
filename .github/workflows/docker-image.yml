@@ -25,7 +25,7 @@ jobs:
       - name: Build the ${BASE_IMAGE} Docker image
         run: |
           # Get draw.io current latest version
-          wget https://raw.githubusercontent.com/jgraph/drawio/master/VERSION
+          git submodules init --update
           export VERSION=`cat VERSION`
           export POSTFIX=`if [ "$BASE_IMAGE" == "debian" ]; then echo ""; else echo "-${BASE_IMAGE}" ; fi`
           docker build -f ${BASE_IMAGE}/Dockerfile -t ${REPO}:${VERSION}${POSTFIX} ${BASE_IMAGE}/
