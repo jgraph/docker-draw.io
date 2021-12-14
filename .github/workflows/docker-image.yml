@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      REPO: thesinding/drawio
+      IMAGE_NAME: ${{ secrets.DOCKER_HUB_ID }}/drawio
       BASE_IMAGE: debian
       HTTP_PORT: 32733
       HTTPS_PORT: 32734
@@ -25,25 +25,25 @@ jobs:
       - name: Login to docker hub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKER_HUB_ID}}
+          username: ${{ secrets.DOCKER_HUB_ID }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Build the ${BASE_IMAGE} Docker image
         run: |
           # Get draw.io current latest version
           wget https://raw.githubusercontent.com/jgraph/drawio/master/VERSION
           export VERSION=`cat VERSION`
-          docker build -f ${BASE_IMAGE}/Dockerfile -t ${REPO}:${VERSION}-${BASE_IMAGE} ${BASE_IMAGE}/
+          docker build -f ${BASE_IMAGE}/Dockerfile -t ${IMAGE_NAME}:${VERSION}-${BASE_IMAGE} ${BASE_IMAGE}/
 
       - name: Test the image works
         run: |
-          docker run --name "drawio-${BASE_IMAGE}" -d -p ${HTTP_PORT}:8080 -p ${HTTPS_PORT}:8443 ${REPO}:${VERSION}-${BASE_IMAGE}
+          docker run --name "drawio-${BASE_IMAGE}" -d -p ${HTTP_PORT}:8080 -p ${HTTPS_PORT}:8443 ${IMAGE_NAME}:${VERSION}-${BASE_IMAGE}
           sleep 10
-          docker exec drawio-${BASE_IMAGE} /bin/bash -c "curl -S -s -o -i /dev/null http://localhost:8080"
+          docker exec drawio-${BASE_IMAGE} /bin/bash -c "curl -i /dev/null http://localhost:8080"
 
       - name: Publish the container
         run: |
           export GIT_BRANCH=`echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }'`
           export TAG=`if [ "$GIT_BRANCH" == "v${VERSION}" ] || [ "$GIT_BRANCH" == "master" ]; then echo "latest"; else echo $GIT_BRANCH ; fi`
-          docker tag ${REPO}:${VERSION}-${BASE_IMAGE} ${REPO}:$TAG;
-          docker push ${REPO}:${TAG};
-          docker push ${REPO}:${VERSION}-${BASE_IMAGE};
+          docker tag ${IMAGE_NAME}:${VERSION}-${BASE_IMAGE} ${IMAGE_NAME}:$TAG;
+          docker push ${IMAGE_NAME}:${TAG};
+          docker push ${IMAGE_NAME}:${VERSION}-${BASE_IMAGE};
