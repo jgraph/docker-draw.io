@@ -33,13 +33,17 @@ jobs:
           wget https://raw.githubusercontent.com/jgraph/drawio/master/VERSION
           export VERSION=`cat VERSION`
           docker build -f ${BASE_IMAGE}/Dockerfile -t ${REPO}:${VERSION}-${BASE_IMAGE} ${BASE_IMAGE}/
+
+      - name: Test the image works
+        run: |
           docker run --name "drawio-${BASE_IMAGE}" -d -p ${HTTP_PORT}:8080 -p ${HTTPS_PORT}:8443 ${REPO}:${VERSION}-${BASE_IMAGE}
           sleep 10
-          docker exec drawio-${BASE_IMAGE} /bin/bash -c "curl -i http://localhost:8080"
+          docker exec drawio-${BASE_IMAGE} /bin/bash -c "curl -S -s -o -i /dev/null http://localhost:8080"
+
+      - name: Publish the container
+        run: |
           export GIT_BRANCH=`echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }'`
           export TAG=`if [ "$GIT_BRANCH" == "v${VERSION}" ] || [ "$GIT_BRANCH" == "master" ]; then echo "latest"; else echo $GIT_BRANCH ; fi`
-          exit 1
-          echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin;
           docker tag ${REPO}:${VERSION}-${BASE_IMAGE} ${REPO}:$TAG;
           docker push ${REPO}:${TAG};
           docker push ${REPO}:${VERSION}-${BASE_IMAGE};
