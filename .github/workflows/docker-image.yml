@@ -18,8 +18,6 @@ jobs:
       BASE_IMAGE: debian
       HTTP_PORT: 32733
       HTTPS_PORT: 32734
-      DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to docker hub
@@ -27,7 +25,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_ID }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Build the ${{BASE_IMAGE}} Docker image
+      - name: Build the ${BASE_IMAGE} Docker image
         run: |
           # Get draw.io current latest version
           wget https://raw.githubusercontent.com/jgraph/drawio/master/VERSION
