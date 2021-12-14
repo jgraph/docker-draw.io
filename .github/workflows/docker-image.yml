@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      REPO: jgraph/drawio
+      REPO: thesinding/drawio
       BASE_IMAGE: debian
       HTTP_PORT: 32733
       HTTPS_PORT: 32734
@@ -22,22 +22,24 @@ jobs:
       DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
     steps:
       - uses: actions/checkout@v2
+      - name: Login to docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_ID}}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Build the ${BASE_IMAGE} Docker image
         run: |
           # Get draw.io current latest version
           wget https://raw.githubusercontent.com/jgraph/drawio/master/VERSION
           export VERSION=`cat VERSION`
-          export POSTFIX=`if [ "$BASE_IMAGE" == "debian" ]; then echo ""; else echo "-${BASE_IMAGE}" ; fi`
-          docker build -f ${BASE_IMAGE}/Dockerfile -t ${REPO}:${VERSION}${POSTFIX} ${BASE_IMAGE}/
-          docker run --name "drawio${POSTFIX}" -d -p ${HTTP_PORT}:8080 -p ${HTTPS_PORT}:8443 ${REPO}:${VERSION}${POSTFIX}
+          docker build -f ${BASE_IMAGE}/Dockerfile -t ${REPO}:${VERSION}-${BASE_IMAGE} ${BASE_IMAGE}/
+          docker run --name "drawio-${BASE_IMAGE}" -d -p ${HTTP_PORT}:8080 -p ${HTTPS_PORT}:8443 ${REPO}:${VERSION}-${BASE_IMAGE}
           sleep 10
-          docker logs drawio${POSTFIX}
-          docker exec drawio${POSTFIX} /bin/bash -c "curl -i http://localhost:8080"
+          docker exec drawio-${BASE_IMAGE} /bin/bash -c "curl -i http://localhost:8080"
           export GIT_BRANCH=`echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }'`
           export TAG=`if [ "$GIT_BRANCH" == "v${VERSION}" ] || [ "$GIT_BRANCH" == "master" ]; then echo "latest"; else echo $GIT_BRANCH ; fi`
-          export ALPINE_TAG=`if [ "$GIT_BRANCH" == "v${VERSION}" ] || [ "$GIT_BRANCH" == "master" ]; then echo "alpine"; else echo $GIT_BRANCH ; fi` 
-          export TAG=`if [ "$POSTFIX" == "" ]; then echo $TAG; else echo $ALPINE_TAG ; fi`
+          exit 1
           echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin;
-          docker tag ${REPO}:${VERSION}${POSTFIX} ${REPO}:$TAG;
+          docker tag ${REPO}:${VERSION}-${BASE_IMAGE} ${REPO}:$TAG;
           docker push ${REPO}:${TAG};
-          docker push ${REPO}:${VERSION}${POSTFIX};
+          docker push ${REPO}:${VERSION}-${BASE_IMAGE};
