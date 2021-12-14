@@ -3,7 +3,9 @@ name: Docker Image CI
 on:
   push:
     branches:
-      - *
+      - master
+      - dev
+      - feature/*
     tags:
       - "v*"
     schedule:
