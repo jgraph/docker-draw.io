@@ -27,7 +27,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_ID }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Build the ${BASE_IMAGE} Docker image
+      - name: Build the ${{BASE_IMAGE}} Docker image
         run: |
           # Get draw.io current latest version
           wget https://raw.githubusercontent.com/jgraph/drawio/master/VERSION
@@ -36,6 +36,7 @@ jobs:
 
       - name: Test the image works
         run: |
+          env
           docker run --name "drawio-${BASE_IMAGE}" -d -p ${HTTP_PORT}:8080 -p ${HTTPS_PORT}:8443 ${IMAGE_NAME}:${VERSION}-${BASE_IMAGE}
           sleep 10
           docker exec drawio-${BASE_IMAGE} /bin/bash -c "curl -i /dev/null http://localhost:8080"
