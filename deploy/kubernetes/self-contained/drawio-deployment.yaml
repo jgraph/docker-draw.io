@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drawio
+  namespace: drawio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: draw.io
+  template:
+    metadata:
+      labels:
+        app: draw.io
+        draw.io.network/drawionet: "true"
+    spec:
+      containers:
+        - env:
+            - name: DRAWIO_BASE_URL
+            - name: DRAWIO_CACHE_DOMAIN
+            - name: DRAWIO_CLOUD_CONVERT_APIKEY
+            - name: DRAWIO_CONFIG
+            - name: DRAWIO_CSP_HEADER
+            - name: DRAWIO_GITLAB_ID
+            - name: DRAWIO_GITLAB_SECRET
+            - name: DRAWIO_GITLAB_URL
+            - name: DRAWIO_GOOGLE_APP_ID
+            - name: DRAWIO_GOOGLE_CLIENT_ID
+            - name: DRAWIO_GOOGLE_CLIENT_SECRET
+            - name: DRAWIO_GOOGLE_VIEWER_APP_ID
+            - name: DRAWIO_GOOGLE_VIEWER_CLIENT_ID
+            - name: DRAWIO_GOOGLE_VIEWER_CLIENT_SECRET
+            - name: DRAWIO_IOT_CERT_PEM
+            - name: DRAWIO_IOT_ENDPOINT
+            - name: DRAWIO_IOT_PRIVATE_KEY
+            - name: DRAWIO_IOT_ROOT_CA
+            - name: DRAWIO_LIGHTBOX_URL
+            - name: DRAWIO_MEMCACHED_ENDPOINT
+            - name: DRAWIO_MSGRAPH_CLIENT_ID
+            - name: DRAWIO_MSGRAPH_CLIENT_SECRET
+            - name: DRAWIO_MXPUSHER_ENDPOINT
+            - name: DRAWIO_PUSHER_MODE
+              value: "2"
+            - name: DRAWIO_SELF_CONTAINED
+              value: "1"
+            - name: DRAWIO_VIEWER_URL
+            - name: EXPORT_URL
+              value: http://image-export:8000/
+            - name: PLANTUML_URL
+              value: http://plantuml-server:8080/
+          image: jgraph/drawio
+          imagePullPolicy: IfNotPresent
+          name: drawio
+          ports:
+            - containerPort: 8443
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+      restartPolicy: Always

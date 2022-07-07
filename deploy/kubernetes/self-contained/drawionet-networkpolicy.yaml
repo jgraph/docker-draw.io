@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  creationTimestamp: null
+  name: drawionet
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              draw.io.network/drawionet: "true"
+  podSelector:
+    matchLabels:
+      draw.io.network/drawionet: "true"

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    app: plantuml-server
+  name: plantuml-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plantuml-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        draw.io.network/drawionet: "true"
+        app: plantuml-server
+    spec:
+      containers:
+        - image: jgraph/plantuml-server
+          name: plantuml-server
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/share/fonts/drawio
+              name: fonts-volume
+      restartPolicy: Always
+      volumes:
+        - name: fonts-volume
+          persistentVolumeClaim:
+            claimName: fonts-volume
+status: {}

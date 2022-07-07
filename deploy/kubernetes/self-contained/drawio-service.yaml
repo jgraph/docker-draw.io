@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    app: draw.io
+  name: drawio
+spec:
+  ports:
+    - name: "8443"
+      port: 8443
+      targetPort: 8443
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: draw.io
+status:
+  loadBalancer: {}

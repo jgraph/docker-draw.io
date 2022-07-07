@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    app: image-export
+  name: image-export
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-export
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+      creationTimestamp: null
+      labels:
+        draw.io.network/drawionet: "true"
+        app: image-export
+    spec:
+      containers:
+        - env:
+            - name: DRAWIO_SERVER_URL
+          image: jgraph/export-server
+          name: image-export
+          ports:
+            - containerPort: 8000
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/share/fonts/drawio
+              name: fonts-volume
+      restartPolicy: Always
+      volumes:
+        - name: fonts-volume
+          persistentVolumeClaim:
+            claimName: fonts-volume
+status: {}
