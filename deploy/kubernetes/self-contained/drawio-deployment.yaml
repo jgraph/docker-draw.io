@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: drawio
-  namespace: drawio
 spec:
   replicas: 2
   selector:
@@ -13,11 +12,11 @@ spec:
     metadata:
       labels:
         app: draw.io
-        draw.io.network/drawionet: "true"
     spec:
       containers:
         - env:
             - name: DRAWIO_BASE_URL
+              value: "http://drawio.localhost:8080"
             - name: DRAWIO_CACHE_DOMAIN
             - name: DRAWIO_CLOUD_CONVERT_APIKEY
             - name: DRAWIO_CONFIG
@@ -36,6 +35,7 @@ spec:
             - name: DRAWIO_IOT_PRIVATE_KEY
             - name: DRAWIO_IOT_ROOT_CA
             - name: DRAWIO_LIGHTBOX_URL
+              value: "http://drawio.localhost:8080"
             - name: DRAWIO_MEMCACHED_ENDPOINT
             - name: DRAWIO_MSGRAPH_CLIENT_ID
             - name: DRAWIO_MSGRAPH_CLIENT_SECRET
@@ -45,6 +45,7 @@ spec:
             - name: DRAWIO_SELF_CONTAINED
               value: "1"
             - name: DRAWIO_VIEWER_URL
+              value: "http://drawio.localhost:8080"
             - name: EXPORT_URL
               value: http://image-export:8000/
             - name: PLANTUML_URL

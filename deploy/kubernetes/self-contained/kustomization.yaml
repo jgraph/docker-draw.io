@@ -5,7 +5,6 @@ namespace: drawio
 
 resources:
   - namespace.yaml
-  - drawionet-networkpolicy.yaml
   - fonts-volume-persistentvolumeclaim.yaml
   - drawio-deployment.yaml
   - drawio-service.yaml
@@ -13,3 +12,4 @@ resources:
   - image-export-service.yaml
   - plantuml-server-deployment.yaml
   - plantuml-server-service.yaml
+  - ingress.yaml

@@ -18,7 +18,6 @@ spec:
       annotations:
       creationTimestamp: null
       labels:
-        draw.io.network/drawionet: "true"
         app: plantuml-server
     spec:
       containers:
