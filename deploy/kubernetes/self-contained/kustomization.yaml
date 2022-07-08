@@ -6,6 +6,7 @@ namespace: drawio
 resources:
   - namespace.yaml
   - fonts-volume-persistentvolumeclaim.yaml
+  - drawio-env-secret.yaml
   - drawio-deployment.yaml
   - drawio-service.yaml
   - image-export-deployment.yaml
