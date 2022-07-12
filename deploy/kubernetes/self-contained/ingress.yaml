@@ -4,9 +4,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: drawio
+  annotations:
+    traefik.ingress.kubernetes.io/router.tls: true
 spec:
   rules:
-    - host: drawio.localhost
+    - host: drawio.127-0-0-1.sslip.io
       http:
         paths:
         - path: /
