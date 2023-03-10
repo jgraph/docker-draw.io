@@ -32,5 +32,6 @@ services:
     environment:
       - PLANTUML_URL=http://plantuml-server:8080/
       - EXPORT_URL=http://image-export:8000/
+      - DRAWIO_SELF_CONTAINED=true
 networks:
   drawionet:
