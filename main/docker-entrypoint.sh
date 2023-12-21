@@ -55,7 +55,7 @@ echo "urlParams['tr'] = '0'; //trello" >>$CATALINA_HOME/webapps/draw/js/PreConfi
 
 #Google Drive 
 if [[ -z "${DRAWIO_GOOGLE_CLIENT_ID}" ]]; then
-    echo "urlParams['gapi'] = '0'; //Google Drive"  >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
+    echo "urlParams['gapi'] = '0'; //Google Drive" >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
 else
     #Google drive application id and client id for the editor
     echo "window.DRAWIO_GOOGLE_APP_ID = '${DRAWIO_GOOGLE_APP_ID}'; " >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
@@ -73,7 +73,7 @@ fi
 
 #Microsoft OneDrive
 if [[ -z "${DRAWIO_MSGRAPH_CLIENT_ID}" ]]; then
-    echo "urlParams['od'] = '0'; //OneDrive"  >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
+    echo "urlParams['od'] = '0'; //OneDrive" >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
 else
     #Google drive application id and client id for the editor
     echo "window.DRAWIO_MSGRAPH_CLIENT_ID = '${DRAWIO_MSGRAPH_CLIENT_ID}'; " >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
@@ -87,7 +87,7 @@ fi
 
 #Gitlab
 if [[ -z "${DRAWIO_GITLAB_ID}" ]]; then
-    echo "urlParams['gl'] = '0'; //Gitlab"  >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
+    echo "urlParams['gl'] = '0'; //Gitlab" >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
 else
     #Gitlab url and id for the editor
     echo "window.DRAWIO_GITLAB_URL = '${DRAWIO_GITLAB_URL}'; " >>$CATALINA_HOME/webapps/draw/js/PreConfig.js
@@ -110,7 +110,7 @@ echo "EditorUi.enableLogging = false; //Disable logging" >>$CATALINA_HOME/webapp
 
 #This requires subscription with cloudconvert.com
 if [[ -z "${DRAWIO_CLOUD_CONVERT_APIKEY}" ]]; then
-    echo "window.EMF_CONVERT_URL = null;"  >>$CATALINA_HOME/webapps/draw/js/PostConfig.js
+    echo "window.EMF_CONVERT_URL = null;" >>$CATALINA_HOME/webapps/draw/js/PostConfig.js
 else
     echo "window.EMF_CONVERT_URL = '/convert';" >>$CATALINA_HOME/webapps/draw/js/PostConfig.js
     echo -n "${DRAWIO_CLOUD_CONVERT_APIKEY}" >$CATALINA_HOME/webapps/draw/WEB-INF/cloud_convert_api_key
