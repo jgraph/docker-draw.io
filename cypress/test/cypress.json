@@ -2,7 +2,7 @@
   "baseUrl": "http://localhost:8080",  
   "viewportWidth": 1200,               
   "viewportHeight": 800,              
-  "integrationFolder": "cypress/test",  
+  "integrationFolder": ".",  
   "testFiles": "*.js",
   "video": false,                      
   "screenshotsFolder": "cypress/screenshots"
