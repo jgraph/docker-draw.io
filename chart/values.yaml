@@ -1,0 +1,17 @@
+replicaCount: 2
+
+image:
+  repository: docker.io/amankinenko/drawio
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: drawio
+  type: ClusterIP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600
+  ports:
+    - name: http
+      port: 8080
