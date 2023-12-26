@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "drawio.fullname" . }}
   labels:
-    {{- include "drawio.labels" . | nindent 4 }}
+    app: draw.io 
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
