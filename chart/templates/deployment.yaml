@@ -2,21 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "drawio.fullname" . }}
-  labels:
-    app: draw.io 
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "drawio.selectorLabels" . | nindent 4 }}
+      app: {{ include "drawio.name" . }}
   template:
     metadata:
       labels:
-        {{- include "drawio.templateLabels" . | nindent 8 }}
+        app: {{ include "drawio.name" . }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ index .Values.service.ports 0 | default 8080 }}
+            - containerPort: 8080
+          env:
+            - name: PUBLIC_DNS
+              value: "{{ .Values.environment.PUBLIC_DNS }}"
+            - name: ORGANISATION_UNIT
+              value: "{{ .Values.environment.ORGANISATION_UNIT }}"
+            - name: ORGANISATION
+              value: "{{ .Values.environment.ORGANISATION }}"
+            - name: CITY
+              value: "{{ .Values.environment.CITY }}"
+            - name: STATE
+              value: "{{ .Values.environment.STATE }}"
+            - name: COUNTRY_CODE
+              value: "{{ .Values.environment.COUNTRY_CODE }}"
