@@ -12,6 +12,6 @@ spec:
       timeoutSeconds: {{ .Values.service.sessionAffinityConfig.clientIP.timeoutSeconds }}
   ports:
     - name: http
-      port: {{ .Values.service.ports[0].port }}
+      port: {{ index .Values.service.ports 0 | default 8080 }}
   selector:
     {{- include "drawio.selectorLabels" . | nindent 4 }}
