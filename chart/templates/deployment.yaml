@@ -19,5 +19,4 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: {{ .Values.service.ports[0].port }}
+            - containerPort: {{ index .Values.service.ports 0 | default 8080 }}
