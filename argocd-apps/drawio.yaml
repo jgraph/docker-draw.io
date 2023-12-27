@@ -15,7 +15,7 @@ spec:
         - values.yaml
       parameters:
         - name: image.repository
-          value: amankinenko/docker-drawio
+          value: b07cc73
         - name: image.tag
           value: latest
   destination:
