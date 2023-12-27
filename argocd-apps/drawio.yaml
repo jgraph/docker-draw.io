@@ -13,6 +13,11 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+      parameters:
+        - name: image.repository
+          value: amankinenko/docker-drawio
+        - name: image.tag
+          value: latest
   destination:
     name: in-cluster
     namespace: drawio
