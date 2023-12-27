@@ -17,7 +17,7 @@ spec:
         - name: image.repository
           value: b07cc73
         - name: image.tag
-          value: latest
+          value: 02268f2
   destination:
     name: in-cluster
     namespace: drawio
