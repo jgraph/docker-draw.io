@@ -12,7 +12,7 @@ service:
 nameOverride: ""
 fullnameOverride: ""
 
-namespace: gitops-rt2
+namespace: drawio
 
 sessionAffinity:
   enabled: true

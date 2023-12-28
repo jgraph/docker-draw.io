@@ -20,7 +20,7 @@ spec:
           value: fd9628f
   destination:
     name: in-cluster
-    namespace: gitops-rt2
+    namespace: drawio
   syncPolicy:
     syncOptions:
       - PrunePropagationPolicy=foreground
