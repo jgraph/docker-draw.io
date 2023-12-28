@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: docker.io/amankinenko/docker-drawio
-  tag: alpine
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
