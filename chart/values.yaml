@@ -1,8 +1,7 @@
-# Existing values...
 replicaCount: 2
 
 image:
-  repository: docker.io/jgraph/drawio
+  repository: docker.io/amankinenko/docker-drawio
   tag: alpine
   pullPolicy: IfNotPresent
 
