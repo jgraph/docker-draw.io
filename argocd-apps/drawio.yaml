@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: drawio
-  namespace: gitops-rt2
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
 spec:
@@ -23,10 +22,6 @@ spec:
     name: in-cluster
     namespace: gitops-rt2
   syncPolicy:
-    automated:
-      prune: false
-      selfHeal: false
-      allowEmpty: false
     syncOptions:
       - PrunePropagationPolicy=foreground
       - Replace=false
