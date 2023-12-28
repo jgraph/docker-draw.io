@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: drawio
+  namespace: gitops-rt2
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
 spec:
