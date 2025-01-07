@@ -14,7 +14,7 @@ You can customize the application by setting the following environment variables
 * `DRAWIO_BASE_URL`: Your deployment base URL but used with the viewer, lightbox and embed. Usually the same as `DRAWIO_SERVER_URL` but does **not** end with `/`.
 * `DRAWIO_CSP_HEADER`: (Optional) Your website Content-Security-Policy if you want to customize it.
 * `DRAWIO_VIEWER_URL`: (Optional) If you want to host a draw.io viewer also, set the viewer URL. For example, `https://drawio.example.com/js/viewer.min.js`
-* `DRAWIO_LIGHTBOX_URL`: (Optional) If you want to host a draw.io viewer also, set the lightbox URL. For example, `https://drawio.example.com` 
+* `DRAWIO_LIGHTBOX_URL`: (Optional) If you want to host a draw.io viewer also, set the lightbox URL. For example, `https://drawio.example.com`
 * `DRAWIO_CONFIG`: (Optional) draw.io configuration JSON. [Documentation](https://www.drawio.com/doc/faq/configure-diagram-editor)
 * `DRAWIO_USE_HTTP`: (Optional and INSECURE) If your setup uses http only and you understand the risks (for example, sending OAuth tokens over http), set `DRAWIO_USE_HTTP=1`. **Caution: Use at your own risk**.
 
@@ -34,7 +34,7 @@ You will need to create and application in order to use MS Graph APIs. Follow th
 
 Once you registered your application, from Microsoft Azure UI, select your new app, then "Authentication". From Authentication, enter your redirect URIs. draw.io requires two redirect URIs `[your-draw.io-hostname]/microsoft` and `[your-draw.io-hostname]/onedrive3.html`. For example, if you host draw.io at `https://drawio.example.com`, then redirect URIs would be `https://drawio.example.com/microsoft` and `https://drawio.example.com/onedrive3.html`
 
-In "Advanced settings" on the same page, enable "Access tokens" and "ID tokens" check boxes. To get the "Client secret", select "Certificates & secrets" page from the menu, then click "+ New client secret" button. Finally, from the "Overview" page in the menu, you can find the "Application (client) ID". 
+In "Advanced settings" on the same page, enable "Access tokens" and "ID tokens" check boxes. To get the "Client secret", select "Certificates & secrets" page from the menu, then click "+ New client secret" button. Finally, from the "Overview" page in the menu, you can find the "Application (client) ID".
 
 Set the client ID and secret into environment variables `DRAWIO_MSGRAPH_CLIENT_ID` and `DRAWIO_MSGRAPH_CLIENT_SECRET`. If your Azure app is a single tenant, set `DRAWIO_MSGRAPH_TENANT_ID` to your tenant ID.
 ## Gitlab

@@ -1,5 +1,5 @@
 # Modified from https://blog.ssdnodes.com/blog/installing-nextcloud-docker/ to include draw.io
-version: '3' 
+version: '3'
 
 services:
 
@@ -20,7 +20,7 @@ services:
       - ./proxy/certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: unless-stopped
-  
+
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: nextcloud-letsencrypt
@@ -57,9 +57,9 @@ services:
     networks:
       - nextcloud_network
     volumes:
-      - ./fonts:/usr/share/fonts/drawio 
+      - ./fonts:/usr/share/fonts/drawio
     restart: unless-stopped
-  
+
   drawio:
     image: jgraph/drawio
     container_name: nextcloud-drawio

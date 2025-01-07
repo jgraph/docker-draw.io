@@ -7,13 +7,13 @@ resources:
       uri: https://github.com/jgraph/draw.io.git
       branch: master
       file: VERSION
-  
+
   - name: docker-draw.io
     type: git
     source:
       uri: https://github.com/fjudith/docker-draw.io.git
       branch: master
-  
+
   - name: draw.io:latest
     type: registry-image
     source:
